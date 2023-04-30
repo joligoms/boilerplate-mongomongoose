@@ -10,32 +10,21 @@ const createAndSavePerson = (done) => {
     favoriteFoods: ['Strogonoff', 'Curry', 'Falafel', 'Avocado Toast'],
   });
 
-  person.save((err, data) => {
-    if (err) return done(err);
-
-    return done(null, data);
-  });
+  person.save((err, data) => errorHandler(err, data, done));
 };
 
 const createManyPeople = (arrayOfPeople, done) => {
-  Person.create(arrayOfPeople, (err, data) => {
-    if (err) return done(err);
-
-    return done(null, data);
-  });
+  Person.create(arrayOfPeople, (err, data) => errorHandler(err, data, done));
 };
 
 const findPeopleByName = (personName, done) => {
   Person.find({ name: personName })
-    .exec((err, data) => {
-      if (err) return done(err);
-
-      return done(null, data);
-    });
+    .exec((err, data) => errorHandler(err, data, done));
 };
 
 const findOneByFood = (food, done) => {
-  done(null /*, data*/);
+  Person.findOne({ favoriteFoods: food })
+    .exec((err, data) => errorHandler(err, data, done));
 };
 
 const findPersonById = (personId, done) => {
@@ -69,6 +58,12 @@ const queryChain = (done) => {
 
   done(null /*, data*/);
 };
+
+function errorHandler (err, data, done) {
+  if (err) return done(err);
+
+  return done(null, data);
+}
 
 /** **Well Done !!**
 /* You completed these challenges, let's go celebrate !
