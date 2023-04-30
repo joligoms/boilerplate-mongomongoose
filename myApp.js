@@ -4,7 +4,17 @@ require('./database.js');
 const Person = require('./models/person.js');
 
 const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+  const person = new Person({
+    name: 'João Gomes',
+    age: 20,
+    favoriteFoods: ['Strogonoff', 'Curry', 'Falafel', 'Avocado Toast'],
+  });
+
+  person.save((err, data) => {
+    if (err) return done(err);
+
+    return done(null, data);
+  });
 };
 
 const createManyPeople = (arrayOfPeople, done) => {
